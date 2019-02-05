@@ -45,7 +45,6 @@ fn main() {
     if let Some(x) = matches.value_of("size") {
         gsize = match x.parse() {Ok(x) => x, Err(e) => {panic!("{}: please set a number", e)}};
     }
-    println!("{}", gsize);
 
     // preprocessing
     // 終端記号を変数に置換して，文字列を配列に格納
@@ -418,8 +417,8 @@ fn main() {
     let end = start.elapsed();
     println!("alphabet size   : {:?}", z.len());
     println!("dictionary size : {:?}", g.len());
-    println!("sequence length : {:?}", s.len());
-    println!("total size      : {:?}", g.len() * 2 + s.len());
+    // println!("sequence length : {:?}", s.len());
+    // println!("total size      : {:?}", g.len() * 2 + s.len());
     println!("{}.{:03} sec elapsed", end.as_secs(), end.subsec_nanos()/1_000_000);
     
 

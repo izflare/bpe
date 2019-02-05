@@ -33,6 +33,14 @@ OPTIONS:
 `<input>` は分かち書き＋前処理済みデータファイル（true）  
 `<size>` は連結ペア数（指定なしの場合，デフォルト値の16000で回る）  
 bpeテキストは `<input>.bpe` ファイルとして出力  
-（分割された単語は abc → ab@@ c のように表記）
+（分割された単語は abc → ab@@ c のように表記）  
+
+
+実行後の表示
+```
+alphabet size   : xxx    // 文字の種類数
+vocabulary size : xxx    // 連結したペア数
+x.xxx sec elapsed        // bpeの実行時間
+```
 
 
