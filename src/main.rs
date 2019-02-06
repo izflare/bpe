@@ -1,6 +1,6 @@
 extern crate clap;
+
 use clap::{App, Arg};
-use std::env;
 use std::char;
 use std::io::{prelude::*, BufReader, BufWriter};
 use std::fs::File;
@@ -411,10 +411,10 @@ fn main() {
         cnt += 1;
     }
 
+    let end = start.elapsed();
     let mut s: Vec<usize> = Vec::new();
     for c in &a {match (*c).0 {Some(x) => s.push(x), None => ()}}
 
-    let end = start.elapsed();
     println!("alphabet size   : {:?}", z.len());
     println!("dictionary size : {:?}", g.len());
     // println!("sequence length : {:?}", s.len());
@@ -422,8 +422,9 @@ fn main() {
     println!("{}.{:03} sec elapsed", end.as_secs(), end.subsec_nanos()/1_000_000);
     
 
-    // output bpe text
+    // output
     //{{{
+    // bpe
     let mut u: Vec<char> = Vec::new();
     fn drv(i: usize, z: &Vec<char>, g: &Vec<(usize, usize)>, u: &mut Vec<char>) -> () {
         if i < z.len() {
@@ -443,7 +444,18 @@ fn main() {
             u.push(' ');
         }
     }
-    let mut f = BufWriter::new(File::create(env::args().nth(2).unwrap()+".bpe").unwrap());
+    let mut f = BufWriter::new(File::create(matches.value_of("input").unwrap().to_owned()+".bpe").unwrap());
+    f.write(u.iter().collect::<String>().as_bytes()).unwrap();
+
+    // grammar
+    let mut u: Vec<char> = Vec::new();
+    for e in &g {
+        drv((*e).0, &z, &g, &mut u);
+        u.push(' ');
+        drv((*e).1, &z, &g, &mut u);
+        u.push('\n');
+    }
+    let mut f = BufWriter::new(File::create(matches.value_of("input").unwrap().to_owned()+".gram").unwrap());
     f.write(u.iter().collect::<String>().as_bytes()).unwrap();
     //}}}
 
